@@ -1,5 +1,5 @@
 var Twison = {
-  extractLinksFromText: function(text) {
+  extractLinksFromText: function (text) {
     var links = text.match(/\[\[.+?\]\]/g)
     if (links) {
       return links.map(function(link) {
@@ -22,7 +22,7 @@ var Twison = {
     }
   },
 
-  convertPassage: function(passage) {
+  convertPassage: function (passage) {
   	var dict = {text: passage.innerHTML};
 
     var links = Twison.extractLinksFromText(dict.text);
@@ -89,8 +89,7 @@ var Twison = {
   convert: function() {
     var storyData = document.getElementsByTagName("tw-storydata")[0];
     var json = JSON.stringify(Twison.convertStory(storyData), null, 2);
-    document.getElementById("output").innerHTML = json;
+    document.getElementById("output").innerHTML = json 
   }
 }
-
 window.Twison = Twison;
