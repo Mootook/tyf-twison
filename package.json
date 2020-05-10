@@ -5,7 +5,8 @@
   "main": "format.js",
   "scripts": {
 		"test": "cd test && mocha test.js",
-		"run": "npm start"
+		"run": "npm start",
+		"convert-test": "tweego -f tyf -o test/test.html test/test.twee"
   },
   "repository": {
     "type": "git",

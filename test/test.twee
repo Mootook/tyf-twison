@@ -1,0 +1,20 @@
+:: StoryData
+{
+	"ifid": "4C980B61-0AA7-4D6A-83EE-D94FA4893107",
+	"format-version": "2.28.2"
+}
+
+::StoryTitle
+Test
+::Start[pause]
+This is the first node
+
+::node_1[pause]
+This is the second node
+::node_2
+This one presents a choice [[Custom Test->node_3]]
+::node_3
+Came from custom text [[test]]
+::test
+Came from direct link
+
