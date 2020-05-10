@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/lazerwalker/twison",
   "devDependencies": {
-    "chai": "^3.4.1",
-    "express": "^4.13.3",
-    "jsdom": "^7.0.2",
-    "mocha": "^2.3.4",
-    "mocha-jsdom": "^1.0.0",
-    "uglify-js": "^2.6.1",
-    "watch": "^0.16.0"
+    "chai": "^4.2.0",
+    "express": "^4.17.1",
+    "jsdom": "^16.2.2",
+    "mocha": "^7.1.2",
+    "mocha-jsdom": "^2.0.0",
+    "uglify-js": "^3.9.2",
+    "watch": "^1.0.2"
   }
 }
