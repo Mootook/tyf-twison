@@ -1,12 +1,14 @@
 const fs = require('fs')
-const Uglify = require('uglify-js')
 const childProcess = require('child_process')
 const exec = childProcess.exec
 
 const package = JSON.parse(fs.readFileSync("package.json", "utf-8"))
 let html = fs.readFileSync("src/storyFormat.html", "utf-8")
-const js = Uglify.minify([fs.readFileSync('src/twison.js', 'utf8')])
 
+
+const Terser = require('terser')
+const jsFile = fs.readFileSync('src/twison.js', 'utf8')
+const js = Terser.minify(jsFile)
 html = html.replace('{{SCRIPT}}', js.code)
 
 const outputJSON = {

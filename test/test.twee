@@ -14,7 +14,10 @@ This is the second node
 ::node_2
 This one presents a choice [[Custom Test->node_3]]
 ::node_3
-Came from custom text [[test]]
-::test
+Came from custom text [[This is the Custom Text->This is the node name]]
+[[This is second custom text->This is second node name]]
+::This is the node name
 Came from direct link
+::This is second node name
+Came from second node
 

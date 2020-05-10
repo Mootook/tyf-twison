@@ -1,9 +1,11 @@
+const choiceRegexp = /\[\[.+?\]\]/g
+const choiceSyntaxRegExp = /\[\[(.*?)\-\&gt;(.*?)\]\]/
 var Twison = {
   extractLinksFromText: function (text) {
-    var links = text.match(/\[\[.+?\]\]/g)
+    var links = text.match(choiceRegexp)
     if (links) {
       return links.map(function(link) {
-        var differentName = link.match(/\[\[(.*?)\-\&gt;(.*?)\]\]/);
+				var differentName = link.match(choiceSyntaxRegExp);
         if (differentName) {
           // [[name->link]]
           return {
@@ -20,16 +22,40 @@ var Twison = {
         }
       });
     }
-  },
+	},
+	
+	filterText: function (text) {
+		let retVal = text
+		const choices = text.match(choiceRegexp) 
+		if (choices) {
+			choices.forEach(choice => {
+				retVal = retVal.replace(choice, '')
+			})
+		}
+		if (retVal.endsWith('\n')) {
+			retVal = retVal.split(" ").filter((k, i, arr) => i !== arr.length - 1).join(' ')
+		}
+		return retVal.trim()
+	},
+
+	arrangeKeys: function (dict) {
+		const retVal = {}
+		const orderedKeys = ['pid', 'name', 'text', 'links']
+		orderedKeys.forEach(k => {
+			if (dict[k]) {
+				retVal[k] = dict[k]
+			}
+		})
+		return retVal
+	},
 
   convertPassage: function (passage) {
-  	var dict = {text: passage.innerHTML};
-
-    var links = Twison.extractLinksFromText(dict.text);
+		var text = passage.innerHTML
+  	const dict = {}
+    var links = Twison.extractLinksFromText(text);
     if (links) {
-      dict.links = links;
+      dict.links = links
     }
-
     ["name", "pid", "position", "tags"].forEach(function(attr) {
       var value = passage.attributes[attr].value;
       if (value) {
@@ -37,19 +63,11 @@ var Twison = {
       }
     });
 
-    if(dict.position) {
-      var position = dict.position.split(',')
-      dict.position = {
-        x: position[0],
-        y: position[1]
-      }
-    }
-
     if (dict.tags) {
       dict.tags = dict.tags.split(" ");
-    }
-
-    return dict;
+		}
+		dict.text = Twison.filterText(text)
+    return Twison.arrangeKeys(dict)
 	},
 
   convertStory: function(story) {
@@ -60,7 +78,7 @@ var Twison = {
       passages: convertedPassages
     };
 
-    ["name", "startnode", "creator", "creator-version", "ifid"].forEach(function(attr) {
+    ["name", "startnode", "ifid"].forEach(function(attr) {
       var value = story.attributes[attr].value;
       if (value) {
         dict[attr] = value;
@@ -83,6 +101,7 @@ var Twison = {
       });
     });
 
+		dict.visited = false
     return dict;
   },
 

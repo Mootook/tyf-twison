@@ -4,9 +4,9 @@
   "description": "Export your Twine 2 story as a JSON document",
   "main": "format.js",
   "scripts": {
-		"test": "cd test && mocha test.js",
-		"run": "npm start",
-		"convert-test": "tweego -f tyf -o test/test.html test/test.twee"
+    "test": "cd test && mocha test.js",
+    "run": "npm start",
+    "convert-test": "tweego -f tyf -o test/test.html test/test.twee"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
     "jsdom": "^16.2.2",
     "mocha": "^7.1.2",
     "mocha-jsdom": "^2.0.0",
-    "uglify-js": "^3.9.2",
     "watch": "^1.0.2"
+  },
+  "dependencies": {
+    "terser": "^4.6.13"
   }
 }
