@@ -2,9 +2,9 @@ const choiceRegexp = /\[\[.+?\]\]/g
 const choiceSyntaxRegExp = /\[\[(.*?)\-\&gt;(.*?)\]\]/
 var Twison = {
   extractLinksFromText: function (text) {
-    var links = text.match(choiceRegexp)
-    if (links) {
-      return links.map(function(link) {
+    var choices = text.match(choiceRegexp)
+    if (choices) {
+      return choices.map(function(link) {
 				var differentName = link.match(choiceSyntaxRegExp);
         if (differentName) {
           // [[name->link]]
@@ -40,7 +40,7 @@ var Twison = {
 
 	arrangeKeys: function (dict) {
 		const retVal = {}
-		const orderedKeys = ['pid', 'name', 'text', 'links']
+		const orderedKeys = ['pid', 'name', 'text', 'choices']
 		orderedKeys.forEach(k => {
 			if (dict[k]) {
 				retVal[k] = dict[k]
@@ -52,9 +52,9 @@ var Twison = {
   convertPassage: function (passage) {
 		var text = passage.innerHTML
   	const dict = {}
-    var links = Twison.extractLinksFromText(text);
-    if (links) {
-      dict.links = links
+    var choices = Twison.extractLinksFromText(text);
+    if (choices) {
+      dict.choices = choices
     }
     ["name", "pid", "position", "tags"].forEach(function(attr) {
       var value = passage.attributes[attr].value;
