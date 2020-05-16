@@ -78,7 +78,7 @@ var Twison = {
       passages: convertedPassages
     };
 
-    ["name", "startnode", "ifid"].forEach(function(attr) {
+    ["name", "start_node", "ifid"].forEach(function(attr) {
       var value = story.attributes[attr].value;
       if (value) {
         dict[attr] = value;
