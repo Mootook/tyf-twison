@@ -9,14 +9,14 @@ var Twison = {
         if (differentName) {
           // [[name->link]]
           return {
-            name: differentName[1],
+            text: differentName[1],
             link: differentName[2]
           };
         } else {
           // [[link]]
           link = link.substring(2, link.length-2)
           return {
-            name: link,
+            text: link,
             link: link
           }
         }
