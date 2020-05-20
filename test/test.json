@@ -1,0 +1,66 @@
+{
+  "passages": [
+    {
+      "pid": "1",
+      "name": "Start",
+      "text": "This is the first",
+      "auto_link": "2"
+    },
+    {
+      "pid": "2",
+      "name": "node_1",
+      "text": "This is the second node and auto links to",
+      "auto_link": "3"
+    },
+    {
+      "pid": "3",
+      "name": "node_2",
+      "text": "This one presents a linear",
+      "links": [
+        {
+          "name": "Custom Test",
+          "link": "node_3",
+          "pid": "4"
+        }
+      ]
+    },
+    {
+      "pid": "4",
+      "name": "node_3",
+      "text": "Came from custom",
+      "links": [
+        {
+          "name": "This is the Custom Text",
+          "link": "This is the node name",
+          "pid": "5"
+        },
+        {
+          "name": "This is second custom text",
+          "link": "This is second node name",
+          "pid": "6"
+        }
+      ]
+    },
+    {
+      "pid": "5",
+      "name": "This is the node name",
+      "text": "This one should auto load to test link",
+      "auto_link": "7"
+    },
+    {
+      "pid": "6",
+      "name": "This is second node name",
+      "text": "Came from second",
+      "auto_link": "7"
+    },
+    {
+      "pid": "7",
+      "name": "test link",
+      "text": "Got here baby\nNow let's try some callbacks\n<<wait 2>>"
+    }
+  ],
+  "name": "Test",
+  "startnode": "1",
+  "ifid": "4C980B61-0AA7-4D6A-83EE-D94FA4893107",
+  "visited": false
+}

@@ -31,8 +31,15 @@ const choiceRegexp=/\[\[.+?\]\]/g,choiceSyntaxRegExp=/\[\[(.*?)\-\&gt;(.*?)\]\]/
 		
 		</pre>
 		<div id="storyData" style="display: none;">
-			<!-- UUID://4C980B61-0AA7-4D6A-83EE-D94FA4893107// --><tw-storydata name="Test" startnode="1" creator="Tweego" creator-version="2.0.0+089d4ca77e5b" ifid="4C980B61-0AA7-4D6A-83EE-D94FA4893107" zoom="1" format="Twison" format-version="0.0.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="pause" position="100,100" size="100,100">This is the first node</tw-passagedata><tw-passagedata pid="2" name="node_1" tags="pause" position="225,100" size="100,100">This is the second node</tw-passagedata><tw-passagedata pid="3" name="node_2" tags="" position="350,100" size="100,100">This one presents a choice [[Custom Test-&gt;node_3]]</tw-passagedata><tw-passagedata pid="4" name="node_3" tags="" position="475,100" size="100,100">Came from custom text [[This is the Custom Text-&gt;This is the node name]]
-[[This is second custom text-&gt;This is second node name]]</tw-passagedata><tw-passagedata pid="5" name="This is the node name" tags="" position="600,100" size="100,100">This one should auto load to test link [[test link]]</tw-passagedata><tw-passagedata pid="6" name="This is second node name" tags="" position="725,100" size="100,100">Came from second node</tw-passagedata><tw-passagedata pid="7" name="test link" tags="" position="850,100" size="100,100">Got here baby</tw-passagedata></tw-storydata>
+			<!-- UUID://4C980B61-0AA7-4D6A-83EE-D94FA4893107// --><tw-storydata name="Test" startnode="1" creator="Tweego" creator-version="2.0.0+089d4ca77e5b" ifid="4C980B61-0AA7-4D6A-83EE-D94FA4893107" zoom="1" format="Twison" format-version="0.0.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Start" tags="" position="100,100" size="100,100">This is the first node
+[[node_1]]</tw-passagedata><tw-passagedata pid="2" name="node_1" tags="" position="225,100" size="100,100">This is the second node and auto links to node_2
+[[node_2]]</tw-passagedata><tw-passagedata pid="3" name="node_2" tags="" position="350,100" size="100,100">This one presents a linear choice
+[[Custom Test-&gt;node_3]]</tw-passagedata><tw-passagedata pid="4" name="node_3" tags="" position="475,100" size="100,100">Came from custom text
+[[This is the Custom Text-&gt;This is the node name]]
+[[This is second custom text-&gt;This is second node name]]</tw-passagedata><tw-passagedata pid="5" name="This is the node name" tags="" position="600,100" size="100,100">This one should auto load to test link [[test link]]</tw-passagedata><tw-passagedata pid="6" name="This is second node name" tags="" position="725,100" size="100,100">Came from second node
+[[test link]]</tw-passagedata><tw-passagedata pid="7" name="test link" tags="" position="850,100" size="100,100">Got here baby
+Now let&#39;s try some callbacks
+&lt;&lt;wait 2&gt;&gt;</tw-passagedata></tw-storydata>
 		</div>
 		<script>
 			Twison.convert()
