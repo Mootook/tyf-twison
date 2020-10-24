@@ -1,111 +1,125 @@
-# Twison
+# Twison-TYF
 
-Forked from [LazyWalker's](https://github.com/lazerwalker/twison)
+Forked from [LazyWalker](https://github.com/lazerwalker/twison).
 
-[![Build Status](https://travis-ci.org/lazerwalker/twison.svg?branch=master)](https://travis-ci.org/lazerwalker/twison)
+The goal of this project was to create an easy, quick way to write and edit dialogue for complex video game dialogue trees.  
 
-Twison is a story format for [Twine 2](http://twinery.org/2) that simply exports to JSON.
+Twison-TYF is just one half of that project (other half to be released soon).
+The purpose of Twison-TYF was to configure an existing twee parser for some flexibility to suit my own needs. I wanted a way to be able to write in the twee syntax while also adding in some custom functionality when the raw file runs through a game engine (configured for Godot in this case).
 
-It is inspired by [Entweedle](http://www.maximumverbosity.net/twine/Entweedle/) as a model for how Twine 2 story formats work.
+## Installation and Setup
 
-## Installation
+While [LazyWalker's](https://github.com/lazerwalker/twison) original repository uses Twine's GUI, this fork is a CLI usage that pairs with Tweego (a command line Twine compiler).  
 
-From the Twine 2 story select screen, add a story format, and point it to the url `https://lazerwalker.com/twison/format.js`.
+1. `git clone https://github.com/Mootook/tyf-twison.git; cd tyf-twison`
 
-From within your story, set the story format to Twison. Choosing "Play" will now give you a JSON file.
+2. [Download Tweego](https://www.motoslave.net/tweego/)
 
+Tweego's installation adds a `story-formats` directory as `TWEEGO_PATH`, which contains a few default formatters. We'll be adding our custom formatter here.
 
-## Output
+3. `npm install; npm start`
 
-Here's an example of its output:
+`npm start` will start [watch.js](watch.js) which will watch for any changes to the src directory and trigger [build.js](build.js). The build file minimizes [twison.js](src/twison.js) and stores it into tweego's `story-formats` directory as `tyf`.
 
+And that should be it. Making changes to how tyf-twison parses can all be done by modifying [twison.js](src/twison.js).
+
+## Usage
+
+[Twee Documentation](https://dan-q.github.io/twee2/documentation.html)
+
+Tweego accepts `.tw/.twee` files.
+
+Here is a basic `.tw` file:
+```tw
+:: StoryData
+{
+	"ifid": "D674C58C-DEFA-4F70-B7A2-27742230C0FC",
+	"format-version": "2.28.2"
+}
+
+::StoryTitle
+{Story Title}
+
+::Start
+This is the start of our story
+[[node_1]]
+
+::node_1
+This one will link to the next node. The option is the same as the node's title, and it will not be a visible choice for the user. Dialogue UI will simply wait for user input to proceed. [[node_2]]
+
+::node_2
+Now let's try some choices 
+[[First choice->node_3]]
+[[Branching choice->node_branch]]
+
+::node_branch
+A branching choice.
+[[node_3]]
+
+::node_3 [tags]
+It's converted as an auto_link, since it's the only option but requires user input to proceed
+Another cool thing this had been configured for is
+<<a_callback>>
+<<a_callback args>>
+```
+The callbacks will be explained more in-depth in the Godot Dialogue Repo.
+
+Now run `tweego -f tyf -o {name}.html {name}.tw`, where tyf is the formatter, and {name}.tw is the twee file you've created.
+
+This will translate to:
 ```json
 {
   "passages": [
     {
-      "text": "This is a passage that goes to [[No Where->nowhere]].\n\nor is to [[somewhere]]?\n\nHere's a [[third link]]\n\nClick [[me->someNode]]",
+      "pid": "1",
+      "name": "Start",
+      "text": "This is the start of our story",
+      "auto_link": "2"
+    },
+    {
+      "pid": "2",
+      "name": "node_1",
+      "text": "This one will link to the next node. The option is the same as the node's title, and it will not be a visible choice for the user. Dialogue UI will simply wait for user input to proceed.",
+      "auto_link": "3"
+    },
+    {
+      "pid": "3",
+      "name": "node_2",
+      "text": "Now let's try some choices",
       "links": [
         {
-          "name": "No Where",
-          "link": "nowhere",
-          "pid": "3"
-        },
-        {
-          "name": "somewhere",
-          "link": "somewhere",
-          "pid": "2"
-        },
-        {
-          "name": "third link",
-          "link": "third link",
-          "pid": "4"
-        },
-        {
-          "name": "me",
-          "link": "someNode",
+          "name": "First choice",
+          "link": "node_3",
           "pid": "5"
+        },
+        {
+          "name": "Branching choice",
+          "link": "node_branch",
+          "pid": "4"
         }
-      ],
-      "name": "First passage",
-      "pid": "1",
-      "position": {
-        "x": "553.3333333333334",
-        "y": "38.333333333333336"
-      },
-      "tags": [
-        "tag",
-        "second-tag"
       ]
     },
     {
-      "text": "You found me!",
-      "name": "somewhere",
-      "pid": "2",
-      "position": {
-        "x": "893.3333333333334",
-        "y": "241.66666666666669"
-      }
+      "pid": "4",
+      "name": "node_branch",
+      "text": "A branching",
+      "auto_link": "5"
+    },
+    {
+      "pid": "5",
+      "name": "node_3",
+      "text": "It's converted as an auto_link, since it's the only option but requires user input to proceed\nAnother cool thing this had been configured for is\n<<a_callback>>\n<<a_callback args>>",
+      "tags": [
+        "tags"
+      ]
     }
   ],
-  "name": "Test",
+  "name": "{Story Title}",
   "startnode": "1",
-  "creator": "Twine",
-  "creator-version": "2.0.9",
-  "ifid": "1881C2BE-C764-4D33-ACC6-7BAEBB6D770A"
+  "ifid": "D674C58C-DEFA-4F70-B7A2-27742230C0FC",
+  "visited": false
 }
-```
+``` 
+Note: callbacks and `visited` will be explained more when the Godot counterpart to this repo is made public TBD.
 
-It aims to maintain all fields provided in Twine's internal XML data, while augmenting with other information where possible. For example, it doesn't touch a node's text contents, but it does parse links to provide a dictionary of links and destination nodes.
-
-
-## Interoperating with other systems
-
-The goal of Twison is to make it easy to use Twine as a frontend for forms of storytelling that differ from Twine's default hypertext output. While being able to copy/paste your JSON from Twison's output into some other system is doable, it's easy to imagine how a tighter integration with external systems could make it a lot easier to use Twine as a prototyping tool.
-
-The hope is that this will eventually take the form of some sort of module system that will make it easy for you to create an integration between Twine/Twison and your own engine. 
-
-In the meanwhile, if you want to see what a custom integration of Twison might look like with another IF tool, check out [Tinsel](http://www.maketinsel.com), a tool that allows you to write telephone-based IF games. Although you can use Tinsel by writing game scripts in its own format, you can also create Tinsel games in Twine, by means of the [Tinsel-Twison](https://github.com/lazerwalker/tinsel-twison) project. 
-
-
-## Development
-
-If you want to hack on Twison itself:
-
-1. Clone this repo and run `npm install` to install dependencies.
-2. Make your changes to the unminified code in the `src` folder
-3. Run `node build.js` to compile your source into a `format.js` file that Twine 2 can understand. Alternatively, you can run `node watch.js` to watch the `src` directory for changes and auto-recompile every time you save.
-
-
-### Testing your changes locally
-
-Running `npm start` will start the `watch.js` auto-compile behavior, and also start a local web server that serves the compiled `format.js` file. By default, this will be available at `http://localhost:3000/format.js`. Add that URL as a story format to your copy of Twine 2; every time you save a source file and then re-generate the "Play" view of your story in Twine, it should use the latest version of your code.
-
-This is easier to do with the browser-based version of Twine 2 than with the downloadable copy, as you can just refresh your output page and it'll use the latest version of Twison.
-
-
-All contributions are welcome! If making code changes, please be sure to run the test suite (`npm test`) before opening a pull request.
-
-
-## License
-
-Twison is licensed under the MIT license. See the LICENSE file for more information.
+All of these parameters are flexible and just about anything is possible with this parsing system (despite this own version's limitations and problems). 

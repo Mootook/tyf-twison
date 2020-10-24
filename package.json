@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cd test && mocha test.js",
     "run": "npm start",
-    "convert-test": "tweego -f tyf -o test/test.html test/test.twee"
+    "convert-test": "tweego -f tyf -o test/readme.html test/readme.twee"
   },
   "repository": {
     "type": "git",
