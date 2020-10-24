@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const childProcess = require('child_process')
 const exec = childProcess.exec
 
@@ -25,15 +26,15 @@ fs.writeFile("dist/format.js", outputString, function(err) {
   if (err) { 
     console.log("Error building story format:", err);
   } else {
-		if (process.platform !== 'darwin') {
-			const srcdir = `"${__dirname}\\dist\\format.js"`
-			const targetdir = `"c:\\program files\\tweego\\story-formats\\tyf\\format.js"`
-			const cmd = `copy ${srcdir} ${targetdir}` 
-			exec(cmd, (err, stdout, stderr) => {
-				console.log('Rebuilt and copied to', targetdir)
-			})
-		}
-		// TODO: Mac
-    console.log("successfully built story format to dist/format.js");
+    const srcdir = process.platform == 'darwin'
+      ? `${path.resolve('./dist/format.js')}`
+      : `"${__dirname}\\dist\\format.js"`
+    const targetdir = process.platform == 'darwin'
+      ? `${path.resolve('../tweego/storyformats/tyf/format.js')}`
+      :`"c:\\program files\\tweego\\story-formats\\tyf\\format.js"`
+    const cmd = `${process.platform == 'darwin' ? 'cp' : 'copy'} ${srcdir} ${targetdir}` 
+    exec(cmd, (err, stdout, stderr) => {
+      console.log(`Rebuilt ${srcdir} and copied to ${targetdir}`)
+    })
   }
 });
